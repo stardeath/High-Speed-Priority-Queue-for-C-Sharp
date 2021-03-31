@@ -310,7 +310,7 @@ namespace Priority_Queue
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
         /// </summary>
-        internal abstract bool HasHigherPriority(T higher, T lower);
+        public abstract bool HasHigherPriority(T higher, T lower);
         //{
         //    return (higher.Priority < lower.Priority ||
         //        (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
@@ -560,7 +560,7 @@ namespace Priority_Queue
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
         /// </summary>
-        internal override bool HasHigherPriority(T higher, T lower)
+        public override bool HasHigherPriority(T higher, T lower)
         {
             return (higher.Priority < lower.Priority ||
                 (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
