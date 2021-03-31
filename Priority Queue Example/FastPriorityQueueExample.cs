@@ -44,7 +44,7 @@ namespace Priority_Queue_Example
             priorityQueue.UpdatePriority(user2, 2);
 
             //Finally, we'll dequeue all the users and print out their names
-            while(priorityQueue.Count != 0)
+            while (priorityQueue.Count != 0)
             {
                 User nextUser = priorityQueue.Dequeue();
                 Console.WriteLine(nextUser.Name);

@@ -25,7 +25,7 @@ namespace Priority_Queue_Example
             priorityQueue.UpdatePriority("2 - Tyler", 2);
 
             //Finally, we'll dequeue all the strings and print them out
-            while(priorityQueue.Count != 0)
+            while (priorityQueue.Count != 0)
             {
                 string nextUser = priorityQueue.Dequeue();
                 Console.WriteLine(nextUser);

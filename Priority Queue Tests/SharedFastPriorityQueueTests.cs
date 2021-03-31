@@ -48,7 +48,7 @@ namespace Priority_Queue_Tests
         public void TestResizeQueueWasFull()
         {
             List<Node> nodes = new List<Node>(Queue.MaxSize);
-            for(int i = 0; i < Queue.MaxSize; i++)
+            for (int i = 0; i < Queue.MaxSize; i++)
             {
                 Node node = new Node(i);
                 Enqueue(node);
@@ -57,9 +57,9 @@ namespace Priority_Queue_Tests
 
             Queue.Resize(Queue.MaxSize * 5);
 
-            for(int i = 0; i < nodes.Count; i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                Assert.AreEqual(100-i, Queue.Count);
+                Assert.AreEqual(100 - i, Queue.Count);
                 Assert.AreEqual(nodes[i], Dequeue());
             }
         }
@@ -102,7 +102,7 @@ namespace Priority_Queue_Tests
         }
 
         #region Debug build only tests
-        #if DEBUG
+#if DEBUG
         [Test]
         public void TestDebugEnqueueThrowsOnFullQueue()
         {
@@ -505,7 +505,7 @@ namespace Priority_Queue_Tests
             Assert.IsTrue(node.Queue == null);
             Assert.AreEqual(node.QueueIndex, 0);
         }
-        #endif
+#endif
         #endregion
     }
 }

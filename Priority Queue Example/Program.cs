@@ -5,8 +5,6 @@ namespace Priority_Queue_Example
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
             FastPriorityQueueExample.RunExample();

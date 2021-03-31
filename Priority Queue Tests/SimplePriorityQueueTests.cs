@@ -39,13 +39,13 @@ namespace Priority_Queue_Tests
         [Test]
         public void TestQueueAutomaticallyResizes()
         {
-            for(int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Enqueue(new Node(i));
                 Assert.AreEqual(i + 1, Queue.Count);
             }
 
-            for(int i = 0; i < 1000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Node node = Dequeue();
                 Assert.AreEqual(i, node.Priority);

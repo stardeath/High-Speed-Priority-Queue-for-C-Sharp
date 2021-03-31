@@ -29,7 +29,7 @@ namespace Priority_Queue_Benchmarks
             RandomPriorities = new int[QueueSize];
             RandomUpdatePriorities = new int[QueueSize];
             Random rand = new Random(34829061);
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Nodes[i] = new FastPriorityQueueNode();
                 RandomPriorities[i] = rand.Next(16777216); // constrain to range float can hold with no rounding
@@ -47,7 +47,7 @@ namespace Priority_Queue_Benchmarks
         public void Enqueue()
         {
             Queue.Clear();
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.Enqueue(Nodes[i], i);
             }
@@ -57,7 +57,7 @@ namespace Priority_Queue_Benchmarks
         public void EnqueueBackwards()
         {
             Queue.Clear();
-            for(int i = QueueSize - 1; i >= 0; i--)
+            for (int i = QueueSize - 1; i >= 0; i--)
             {
                 Queue.Enqueue(Nodes[i], i);
             }
@@ -67,7 +67,7 @@ namespace Priority_Queue_Benchmarks
         public void EnqueueRandom()
         {
             Queue.Clear();
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.Enqueue(Nodes[i], RandomPriorities[i]);
             }
@@ -78,7 +78,7 @@ namespace Priority_Queue_Benchmarks
         {
             Enqueue();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.Dequeue();
             }
@@ -89,7 +89,7 @@ namespace Priority_Queue_Benchmarks
         {
             EnqueueBackwards();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.Dequeue();
             }
@@ -100,7 +100,7 @@ namespace Priority_Queue_Benchmarks
         {
             EnqueueRandom();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.Dequeue();
             }
@@ -111,7 +111,7 @@ namespace Priority_Queue_Benchmarks
         {
             Enqueue();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.UpdatePriority(Nodes[i], QueueSize - i);
             }
@@ -122,7 +122,7 @@ namespace Priority_Queue_Benchmarks
         {
             EnqueueBackwards();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.UpdatePriority(Nodes[i], QueueSize - i);
             }
@@ -133,7 +133,7 @@ namespace Priority_Queue_Benchmarks
         {
             EnqueueRandom();
 
-            for(int i = 0; i < QueueSize; i++)
+            for (int i = 0; i < QueueSize; i++)
             {
                 Queue.UpdatePriority(Nodes[i], RandomUpdatePriorities[i]);
             }
@@ -152,7 +152,7 @@ namespace Priority_Queue_Benchmarks
                     ret &= Queue.Contains(Nodes[j]);
                 }
             }
-            
+
             return ret;
         }
 
@@ -162,7 +162,7 @@ namespace Priority_Queue_Benchmarks
             Enqueue();
             float prioritySum = 0;
 
-            foreach(FastPriorityQueueNode node in Queue)
+            foreach (FastPriorityQueueNode node in Queue)
             {
                 prioritySum += node.Priority;
             }
