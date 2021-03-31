@@ -103,7 +103,7 @@ namespace Priority_Queue
             }
             if (node.QueueIndex < 0 || node.QueueIndex >= _nodes.Length)
             {
-                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually?");
+                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually? Or add this node to another queue?");
             }
 #endif
 
@@ -503,6 +503,7 @@ namespace Priority_Queue
         /// <summary>
         /// By default, nodes that have been previously added to one queue cannot be added to another queue.
         /// If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+        /// If the node is currently in the queue or belongs to another queue, the result is undefined
         /// </summary>
         public void ResetNode(TItem node)
         {
@@ -525,7 +526,6 @@ namespace Priority_Queue
 
             node.QueueIndex = 0;
         }
-
 
         public IEnumerator<TItem> GetEnumerator()
         {

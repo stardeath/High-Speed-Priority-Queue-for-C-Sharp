@@ -10,8 +10,8 @@ namespace Priority_Queue
     /// See https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/Getting-Started for more information
     /// </summary>
     /// <typeparam name="T">The values in the queue.  Must extend the FastPriorityQueueNode class</typeparam>
-    public sealed class FastPriorityQueue<T> : IFixedSizePriorityQueue<T, float>
-        where T : FastPriorityQueueNode
+    public abstract class FastPriorityQueue<T, TPriority> : IFixedSizePriorityQueue<T, TPriority>
+        where T : FastPriorityQueueNode<TPriority>
     {
         private int _numNodes;
         private T[] _nodes;
@@ -99,7 +99,7 @@ namespace Priority_Queue
         /// If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
         /// O(log n)
         /// </summary>
-        public void Enqueue(T node, float priority)
+        public void Enqueue(T node, TPriority priority)
         {
 #if DEBUG
             if (node == null)
@@ -305,19 +305,19 @@ namespace Priority_Queue
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
         /// </summary>
-        private bool HasHigherPriority(T higher, T lower)
-        {
-            return (higher.Priority < lower.Priority);
-        }
+        internal abstract bool HasHigherPriority(T higher, T lower);
+        //{
+        //    return (higher.Priority < lower.Priority);
+        //}
 
         /// <summary>
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherOrEqualPriority(node, node) (ie. both arguments the same node) will return true
         /// </summary>
-        private bool HasHigherOrEqualPriority(T higher, T lower)
-        {
-            return (higher.Priority <= lower.Priority);
-        }
+        internal abstract bool HasHigherOrEqualPriority(T higher, T lower);
+        //{
+        //    return (higher.Priority <= lower.Priority);
+        //}
 
         /// <summary>
         /// Removes the head of the queue and returns it.
@@ -411,7 +411,7 @@ namespace Priority_Queue
         /// Calling this method on a node not in the queue results in undefined behavior
         /// O(log n)
         /// </summary>
-        public void UpdatePriority(T node, float priority)
+        public void UpdatePriority(T node, TPriority priority)
         {
 #if DEBUG
             if (node == null)
@@ -547,6 +547,34 @@ namespace Priority_Queue
                 }
             }
             return true;
+        }
+    }
+
+
+    public class FastPriorityQueue<T> : FastPriorityQueue<T, float>
+         where T : FastPriorityQueueNode<float>
+    {
+        public FastPriorityQueue(int maxNodes)
+            : base(maxNodes)
+        {
+        }
+
+       /// <summary>
+       /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
+       /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
+       /// </summary>
+        internal override bool HasHigherPriority(T higher, T lower)
+        {
+            return (higher.Priority < lower.Priority);
+        }
+
+        /// <summary>
+        /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
+        /// Note that calling HasHigherOrEqualPriority(node, node) (ie. both arguments the same node) will return true
+        /// </summary>
+        internal override bool HasHigherOrEqualPriority(T higher, T lower)
+        {
+            return (higher.Priority <= lower.Priority);
         }
     }
 }

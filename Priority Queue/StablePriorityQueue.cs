@@ -11,8 +11,8 @@ namespace Priority_Queue
     /// See https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/Getting-Started for more information
     /// </summary>
     /// <typeparam name="T">The values in the queue.  Must extend the StablePriorityQueueNode class</typeparam>
-    public sealed class StablePriorityQueue<T> : IFixedSizePriorityQueue<T, float>
-        where T : StablePriorityQueueNode
+    public abstract class StablePriorityQueue<T, TPriority> : IFixedSizePriorityQueue<T, TPriority>
+        where T : StablePriorityQueueNode<TPriority>
     {
         private int _numNodes;
         private T[] _nodes;
@@ -88,7 +88,7 @@ namespace Priority_Queue
             }
             if (node.QueueIndex < 0 || node.QueueIndex >= _nodes.Length)
             {
-                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually?");
+                throw new InvalidOperationException("node.QueueIndex has been corrupted. Did you change it manually? Or add this node to another queue?");
             }
 #endif
 
@@ -102,7 +102,7 @@ namespace Priority_Queue
         /// If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
         /// O(log n)
         /// </summary>
-        public void Enqueue(T node, float priority)
+        public void Enqueue(T node, TPriority priority)
         {
 #if DEBUG
             if (node == null)
@@ -310,11 +310,11 @@ namespace Priority_Queue
         /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
         /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
         /// </summary>
-        private bool HasHigherPriority(T higher, T lower)
-        {
-            return (higher.Priority < lower.Priority ||
-                (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
-        }
+        internal abstract bool HasHigherPriority(T higher, T lower);
+        //{
+        //    return (higher.Priority < lower.Priority ||
+        //        (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
+        //}
 
         /// <summary>
         /// Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
@@ -408,7 +408,7 @@ namespace Priority_Queue
         /// Calling this method on a node not in the queue results in undefined behavior
         /// O(log n)
         /// </summary>
-        public void UpdatePriority(T node, float priority)
+        public void UpdatePriority(T node, TPriority priority)
         {
 #if DEBUG
             if (node == null)
@@ -489,6 +489,7 @@ namespace Priority_Queue
         /// <summary>
         /// By default, nodes that have been previously added to one queue cannot be added to another queue.
         /// If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+        /// If the node is currently in the queue or belongs to another queue, the result is undefined
         /// </summary>
         public void ResetNode(T node)
         {
@@ -511,7 +512,6 @@ namespace Priority_Queue
 
             node.QueueIndex = 0;
         }
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -544,6 +544,26 @@ namespace Priority_Queue
                 }
             }
             return true;
+        }
+    }
+
+
+    public class StablePriorityQueue<T> : StablePriorityQueue<T, float>
+         where T : StablePriorityQueueNode<float>
+    {
+        public StablePriorityQueue(int maxNodes)
+            : base(maxNodes)
+        {
+        }
+
+        /// <summary>
+        /// Returns true if 'higher' has higher priority than 'lower', false otherwise.
+        /// Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
+        /// </summary>
+        internal override bool HasHigherPriority(T higher, T lower)
+        {
+            return (higher.Priority < lower.Priority ||
+                (higher.Priority == lower.Priority && higher.InsertionIndex < lower.InsertionIndex));
         }
     }
 }
