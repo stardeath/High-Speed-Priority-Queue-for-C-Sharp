@@ -71,6 +71,7 @@
     <Compile Include="SimplePriorityQueue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="Priority Queue.snk" />
   </ItemGroup>
